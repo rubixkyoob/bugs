@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BUGS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="main.js"></script>
+<script src="Bug.js"></script>
+<script src="Collision.js"></script>
+<script src="Event.js"></script>
+<script src="Enums.js"></script>
+<script>
+
+	$( document ).ready(function() {
+		
+		$("#createBtn").click(function() {
+			fps = $("#fpsInput").val();
+			createBugTable();
+			generateBugs();
+		});
+		
+		fps = $("#fpsInput").val();
+		createBugTable();
+		generateBugs();
+		console.log(bugs);
+		
+		requestAnimationFrame(main);
+	});
+</script>
+<style>
+#bugTable {
+	cellpadding: 0px;
+	cellspacing: 0px;
+}
+#bugTable td {
+	width: 10px;
+	height: 10px;
+}
+</style>
+</head>
+<body bgcolor="#666666">
+<table>
+	<tbody>
+		<tr>
+			<td style="color:white;">Width</td>
+			<td><input id="widthInput" type="text" value="25" style="width:50px;"/></td>
+		</tr>
+		<tr>
+			<td style="color:white;">Height</td>
+			<td><input id="heightInput" type="text" value="25" style="width:50px;"/></td>
+		</tr>
+		<tr>
+			<td style="color:white;">Num of Bugs</td>
+			<td><input id="bugNumInput" type="text" value="30" style="width:50px;"/></td>
+		</tr>
+		<tr>
+			<td style="color:white;">FPS</td>
+			<td><input id="fpsInput" type="text" value="10" style="width:50px;" /></td>
+		</tr>
+		<tr>
+			<td colspan=2>
+				<button id="createBtn" >Create</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<table id="bugTable"><tbody></tbody></table>
+
+
+</body>
+</html>
