@@ -13,6 +13,14 @@ var fps = 10;
 function main(timestamp) {
 	deltaTime = timestamp - lastFrameTime;
 	
+	//process states
+	if(timestamp > 10000) {
+		for(var b = 0; b < bugs.length; b++) {
+			bugs[b].processStates();
+		}
+		return;
+	}
+	
 	// update
 	updateBugs();
 	updateBugCollisions();
@@ -36,7 +44,7 @@ function createBugTable() {
 	
 		var $tr = $("<tr>", {id: "tr_" + i});
 		for(var j = 0; j < w; j++) {
-			var $td = $("<td>", {id: "td_" + i + "_" + j, "class":"cell"});
+			var $td = $("<td>", {id: "td_" + j + "_" + i, "class":"cell"});
 			$tr.append($td);
 		}
 		table.append($tr);

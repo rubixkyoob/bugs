@@ -123,4 +123,28 @@ function Bug(x, y, strength) {
 		newState.calculateValue(this.states[this.states.length - 1]);
 		this.states.push(newState);
 	};
+	
+	this.processStates = function() {
+		
+		var positives = new Summary();
+		var negatives = new Summary();
+		
+		for(var i = 0; i < this.states.length; i++) {
+			var currState = this.states[i];
+			
+			if(currState.value >= 0) {
+				positives.addState(currState);
+			}
+			else {
+				negatives.addState(currState);
+			}
+			
+		}
+		
+		positives.calculateAverages();
+		negatives.calculateAverages();
+		
+		console.log(positives);
+		console.log(negatives);
+	};
 }
