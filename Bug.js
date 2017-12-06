@@ -11,6 +11,7 @@ function Bug(x, y, strength) {
 	this.state = bugState.ALIVE;
 	this.strength = strength || 100;
 	this.collisions = [];
+	this.states = [new State(this, false)];
 	
 	this.color = {r: 0, g: 255, b: 0};
 	this.getColor = function() {
@@ -62,10 +63,17 @@ function Bug(x, y, strength) {
 				}
 				
 				this.color = {r: (5.1 * (100 - this.health)), g: (5.1 * (this.health)), b: 0};
+				
+				var newState = new State(this, false);
+				newState.calculateValue(this.states[this.states.length - 1]);
+				this.states.push(newState);
 				break;
 				
 			case bugState.DEAD:
 				this.color = {r:0,g:0,b:0};
+				var newState = new State(this, true);
+				newState.calculateValue(this.states[this.states.length - 1]);
+				this.states.push(newState);
 				break;
 		}
 		
