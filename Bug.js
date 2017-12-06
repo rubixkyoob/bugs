@@ -42,7 +42,9 @@ function Bug(x, y, strength) {
 				// update hunger
 				if(this.collisions.length > 0) {
 					for(var i = 0; i < this.collisions.length; i++) {
-						this.hunger += this.hungerReplenish;
+						if(this.collisions[i].state != bugState.DEAD) {
+							this.hunger += this.hungerReplenish;
+						}
 					}
 				}
 				else {
@@ -63,17 +65,11 @@ function Bug(x, y, strength) {
 				}
 				
 				this.color = {r: (5.1 * (100 - this.health)), g: (5.1 * (this.health)), b: 0};
-				
-				var newState = new State(this, false);
-				newState.calculateValue(this.states[this.states.length - 1]);
-				this.states.push(newState);
+				this.addNewState();
 				break;
 				
 			case bugState.DEAD:
 				this.color = {r:0,g:0,b:0};
-				var newState = new State(this, true);
-				newState.calculateValue(this.states[this.states.length - 1]);
-				this.states.push(newState);
 				break;
 		}
 		
@@ -119,5 +115,12 @@ function Bug(x, y, strength) {
 				break;
 		}
 		this.hunger -= this.hungerMoveDecRate;
+	};
+	
+	//STATES
+	this.addNewState = function() {
+		var newState = new State(this);
+		newState.calculateValue(this.states[this.states.length - 1]);
+		this.states.push(newState);
 	};
 }
