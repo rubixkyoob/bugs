@@ -24,8 +24,32 @@
 		generateBugs();
 		console.log(bugs);
 		
+		$(".cell").on("click", function() {
+			console.log("click");
+			var bug_id = $(this).data("bug");
+			if(bug_id === -1) {
+				for(var i = 0; i < bugs.length; i++) {
+					bugs[i].selected = false;
+				}
+			}
+			else {
+				console.log("SELECTED!");
+				if(bugs[bug_id].selected) {
+					bugs[bug_id] = false;
+				}
+				else {
+					for(var i = 0; i < bugs.length; i++) {
+						bugs[i].selected = (i == bug_id);
+					}
+					
+				}
+			}
+		});
+		
 		requestAnimationFrame(main);
 	});
+	
+	
 </script>
 <style>
 #bugTable {
@@ -39,7 +63,7 @@
 </style>
 </head>
 <body bgcolor="#666666">
-<table>
+<table style="border-collapse: collapse;">
 	<tbody>
 		<tr>
 			<td style="color:white;">Width</td>

@@ -3,6 +3,7 @@ function Bug(x, y, strength) {
 	//properties
 	this.x = x;
 	this.y = y;
+	this.selected = false;
 	this.health = 100;
 	this.hunger = 100;
 	this.hungerReplenish = 4;
@@ -12,6 +13,8 @@ function Bug(x, y, strength) {
 	this.strength = strength || 100;
 	this.collisions = [];
 	this.states = [new State(this, false)];
+	this.posStates = [];
+	this.negStates = [];
 	
 	this.color = {r: 0, g: 255, b: 0};
 	this.getColor = function() {
@@ -121,30 +124,23 @@ function Bug(x, y, strength) {
 	this.addNewState = function() {
 		var newState = new State(this);
 		newState.calculateValue(this.states[this.states.length - 1]);
+		if(newState.value >= 0) {
+			this.posStates.push(newState);
+		}
+		else {
+			this.negStates.push(newState);
+		}
 		this.states.push(newState);
 	};
 	
 	this.processStates = function() {
+		var posSummary = new Summary();
+		var negSummary = new Summary();
 		
-		var positives = new Summary();
-		var negatives = new Summary();
+		posSummary.calculateAverages(this.posStates);
+		negSummary.calculateAverages(this.negStates);
 		
-		for(var i = 0; i < this.states.length; i++) {
-			var currState = this.states[i];
-			
-			if(currState.value >= 0) {
-				positives.addState(currState);
-			}
-			else {
-				negatives.addState(currState);
-			}
-			
-		}
-		
-		positives.calculateAverages();
-		negatives.calculateAverages();
-		
-		console.log(positives);
-		console.log(negatives);
+		console.log(posSummary);
+		console.log(negSummary);
 	};
 }

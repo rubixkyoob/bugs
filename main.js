@@ -4,21 +4,22 @@
 var bugs = [];
 var collisions = [];
 var gridW=0, gridH=0;
-var bugClass = "bug";
 var interval;
 var lastFrameTime = 0;
 var deltaTime = 0;
 var fps = 10;
 
+var ticks = 0;
+
 function main(timestamp) {
 	deltaTime = timestamp - lastFrameTime;
-	
+	ticks += deltaTime;
 	//process states
-	if(timestamp > 10000) {
+	if(ticks > 10000) {
 		for(var b = 0; b < bugs.length; b++) {
 			bugs[b].processStates();
 		}
-		return;
+		ticks = 0;
 	}
 	
 	// update
@@ -44,11 +45,15 @@ function createBugTable() {
 	
 		var $tr = $("<tr>", {id: "tr_" + i});
 		for(var j = 0; j < w; j++) {
-			var $td = $("<td>", {id: "td_" + j + "_" + i, "class":"cell"});
+			var $td = $("<td>", {id: "td_" + j + "_" + i, "class":"cell", "data-bug":-1});
 			$tr.append($td);
 		}
 		table.append($tr);
 	}
+	
+	$(".cell").click(function() {
+		$(this).data("x")
+	});
 	
 	gridW = w;
 	gridH = h;
@@ -110,10 +115,20 @@ function isEmptyCell(x, y) {
 
 function renderBugTable() {
 	
-	$(".cell").css("background-color", "#808080");
+	$(".cell").css({
+		"background-color": "#808080", 
+		"border": "1px solid rgba(0,0,0,0)"
+	}).data("bug", -1);
+	
 	for(var b = 0; b < bugs.length; b++) {
 		var bug = bugs[b];
-		$("#td_" + bug.x + "_" + bug.y).css("background-color", bug.getColor());
+		var td = $("#td_" + bug.x + "_" + bug.y);
+		td.data("bug", b);
+		td.css({"background-color": bug.getColor()});
+		if(bug.selected) {
+			td.css({
+				"border": "1px solid blue"
+			});
+		}
 	}
-
 }
