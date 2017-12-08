@@ -45,7 +45,7 @@ function Bug(x, y, strength) {
 				// update hunger
 				if(this.collisions.length > 0) {
 					for(var i = 0; i < this.collisions.length; i++) {
-						if(this.collisions[i].state != bugState.DEAD) {
+						if(this.collisions[i].other.state != bugState.DEAD) {
 							this.hunger += this.hungerReplenish;
 						}
 					}

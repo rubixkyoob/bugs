@@ -27,6 +27,7 @@ function main(timestamp) {
 	updateBugCollisions();
 	
 	// render
+	renderInfoTable();
 	renderBugTable();
 	
 	// repeat
@@ -51,10 +52,6 @@ function createBugTable() {
 		table.append($tr);
 	}
 	
-	$(".cell").click(function() {
-		$(this).data("x")
-	});
-	
 	gridW = w;
 	gridH = h;
 }
@@ -75,6 +72,12 @@ function generateBugs() {
 		} while(repeat);
 		
 	}
+	
+	//TESTING
+	for(var i = 0; i < bugs.length - 1; i++) {
+		bugs[i].state = bugState.DEAD;
+	}
+	bugs[bugs.length-1].selected = true;
 }
 
 function updateBugs() {
@@ -131,4 +134,22 @@ function renderBugTable() {
 			});
 		}
 	}
+}
+
+function renderInfoTable() {
+	for(var i = 0; i < bugs.length; i++) {
+		if(bugs[i].selected) {
+			$("#xRef").text(bugs[i].x);
+			$("#yRef").text(bugs[i].y);
+			$("#hungerRef").text(bugs[i].hunger);
+			$("#healthRef").text(bugs[i].health);
+			$("#collisionsRef").text(bugs[i].collisions.length);
+			return;
+		}
+	}
+	$("#xRef").text("");
+	$("#yRef").text("");
+	$("#hungerRef").text("");
+	$("#healthRef").text("");
+	$("#collisionsRef").text("");
 }
